@@ -8,16 +8,17 @@ UTILS_PATH="$(cd "$(readlink -f $(dirname "$0"))/../utils" && pwd)"
 TMUX_CONFIG_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/tmux.conf"
 
 minimal_install=false
+if [[ $(hostname) == server* ]];
+then
+    minimal_install=true
+fi
 
 # Parse the input options
-while getopts "im" opt; do
+while getopts "i" opt; do
     case ${opt} in
         i )
             echo "$INFO_MESSAGE"
             exit 0
-            ;;
-        m )
-            minimal_install=true
             ;;
         \? )
             echo "Invalid option: -$OPTARG" >&2
