@@ -1,0 +1,20 @@
+## arrow up
+"\e[A":history-search-backward
+## arrow down
+"\e[B":history-search-forward
+## alt+arrow up
+"\e[1;3A":history-search-backward
+## alt+arrow down
+"\e[1;3B":history-search-forward
+## alt+arrow left
+"\e[1;3D": backward-word
+## alt+arrow right
+"\e[1;3C": forward-word
+## ctrl+arrow left
+"\e[1;5D": backward-word
+## ctrl+arrow right
+"\e[1;5C": forward-word
+## ctrl + backspace = delete word back
+"\C-H": shell-backward-kill-word
+## ctrl + delete = delete word front
+"\e[3;5~": shell-kill-word
