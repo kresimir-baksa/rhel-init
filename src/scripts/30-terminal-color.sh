@@ -6,12 +6,17 @@ FINISHED_MESSAGE="Terminal ricing finished"
 BASH_PROMPT_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/bash-prompt"
 UTILS_PATH="$(cd "$(readlink -f $(dirname "$0"))/../utils" && pwd)"
 
+minimal_install=false
+
 # Parse the input options
-while getopts "i" opt; do
+while getopts "im" opt; do
     case ${opt} in
         i )
             echo "$INFO_MESSAGE"
             exit 0
+            ;;
+        m )
+            minimal_install=true
             ;;
         \? )
             echo "Invalid option: -$OPTARG" >&2
@@ -25,14 +30,18 @@ done
 # Setup terminal prompt
 sudo cp "$BASH_PROMPT_PATH" /etc/profile.d/prompt.sh
 
-# Duplicate current prifle to enable gogh script run
-bash "$UTILS_PATH/duplicate-term-theme.sh"
+if [ "$minimal_install" = false ]; then
+    # Duplicate current prifle to enable gogh script run
+    bash "$UTILS_PATH/duplicate-term-theme.sh"
 
-# Run gogh
-bash "$UTILS_PATH/gogh.sh"
+    sleep 1
 
-# Cleanup
-rm -rf "$HOME/src"
+    # Run gogh
+    bash "$UTILS_PATH/gogh.sh"
+
+    # Cleanup
+    rm -rf "$HOME/src"
+fi
 
 echo "$FINISHED_MESSAGE"
 
