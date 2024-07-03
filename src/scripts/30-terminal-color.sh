@@ -5,6 +5,7 @@ FINISHED_MESSAGE="Terminal ricing finished"
 
 BASH_PROMPT_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/bash-prompt"
 UTILS_PATH="$(cd "$(readlink -f $(dirname "$0"))/../utils" && pwd)"
+TMUX_CONFIG_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/tmux.conf"
 
 minimal_install=false
 
@@ -29,6 +30,7 @@ done
 
 # Setup terminal prompt
 sudo cp "$BASH_PROMPT_PATH" /etc/profile.d/prompt.sh
+sudo cp "$TMUX_CONFIG_PATH" /etc/tmux.conf
 
 if [ "$minimal_install" = false ]; then
     # Duplicate current prifle to enable gogh script run
