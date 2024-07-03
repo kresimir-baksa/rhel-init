@@ -1,4 +1,5 @@
 # Clone the repo into "$HOME/src/gogh"
+sudo dnf install git -y
 mkdir -p "$HOME/src"
 cd "$HOME/src"
 git clone https://github.com/Gogh-Co/Gogh.git gogh

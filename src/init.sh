@@ -3,6 +3,7 @@
 export BASE_PATH="$(cd "$(readlink -f $(dirname "$0"))/.." && pwd)"
 export CONFIG_PATH="$BASE_PATH/config"
 export SCRIPTS_PATH="$BASE_PATH/src/scripts"
+SERVERS=("servera" "serverb")
 
 # Flag for automatic installation
 auto_install=false
@@ -18,6 +19,11 @@ while getopts "y" option; do
             exit 1
             ;;
     esac
+done
+
+for SERVER in "${SERVERS[@]}";
+do
+    scp -r $BASE_PATH $SERVER:/home/student/
 done
 
 for script_file in $(ls $SCRIPTS_PATH);
@@ -40,5 +46,20 @@ do
         sudo bash "$script"
         echo "Running $script_file on workstation DONE"
         echo ""
+
+        for SERVER in "${SERVERS[@]}";
+        do
+            echo "Running $script_file on $SERVER"
+            ssh $SERVER 'bash -s /home/student/rhel-init/src/scripts/$script_file' << EOF
+                sudo bash $script_file
+EOF
+            echo "Running $script_file on $SERVER DONE"
+            echo ""
+        done
     fi
+done
+
+for SERVER in "${SERVERS[@]}";
+do
+    ssh $SERVER "rm -rf /home/student/rhel-init"
 done
