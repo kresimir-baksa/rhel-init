@@ -50,8 +50,8 @@ do
         for SERVER in "${SERVERS[@]}";
         do
             echo "Running $script_file on $SERVER"
-            ssh $SERVER 'bash -s /home/student/rhel-init/src/scripts/$script_file' << EOF
-                sudo bash $script_file
+            ssh $SERVER 'bash -s' << EOF
+                sudo bash /home/student/rhel-init/src/scripts/$script_file
 EOF
             echo "Running $script_file on $SERVER DONE"
             echo ""
