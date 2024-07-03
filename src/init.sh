@@ -23,7 +23,7 @@ done
 
 for SERVER in "${SERVERS[@]}";
 do
-    scp -r $BASE_PATH $SERVER:/home/student/
+    scp -rq $BASE_PATH $SERVER:/home/student/
 done
 
 for script_file in $(ls $SCRIPTS_PATH);
