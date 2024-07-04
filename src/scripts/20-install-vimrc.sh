@@ -24,6 +24,9 @@ done
 # Make the backup
 sudo cp /etc/vimrc.local /etc/vimrc.local.backup
 
+# Install git to be able to download the theme
+sudo dnf install -y git
+
 # Setup new vimrc.local file
 sudo cat "$VIMRC_PATH" > /etc/vimrc.local
 
