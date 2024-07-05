@@ -6,10 +6,14 @@ FINISHED_MESSAGE="Lines successfully added to /etc/profile.d"
 BASH_ALIASES_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/bash-aliases.sh"
 
 # Parse the input options
-while getopts "i" opt; do
+while getopts "is" opt; do
     case ${opt} in
         i )
             echo "$INFO_MESSAGE"
+            exit 0
+            ;;
+        s )
+            # 0 = run as admin, 1 = run as user
             exit 0
             ;;
         \? )

@@ -6,10 +6,14 @@ FINISHED_MESSAGE="Setting up /etc/vimrc.local done"
 VIMRC_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/vimrc.local"
 
 # Parse the input options
-while getopts "i" opt; do
+while getopts "is" opt; do
     case ${opt} in
         i )
             echo "$INFO_MESSAGE"
+            exit 0
+            ;;
+        s )
+            # 0 = run as admin, 1 = run as user
             exit 0
             ;;
         \? )
@@ -37,6 +41,8 @@ sudo chmod a+rwx /usr/local/opt/fzf
 sudo cp "$VIMRC_PATH" /etc/vimrc.local
 
 # Compile vimrc
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim +PlugInstall +qall
 # vim -c "source /etc/vimrc" -c "quit"
 
 echo "$FINISHED_MESSAGE"

@@ -14,11 +14,15 @@ then
 fi
 
 # Parse the input options
-while getopts "i" opt; do
+while getopts "is" opt; do
     case ${opt} in
         i )
             echo "$INFO_MESSAGE"
             exit 0
+            ;;
+        s )
+            # 0 = run as admin, 1 = run as user
+            exit 1
             ;;
         \? )
             echo "Invalid option: -$OPTARG" >&2
