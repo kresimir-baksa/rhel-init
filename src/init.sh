@@ -43,7 +43,7 @@ do
 
     if [ "$install" = true ]; then
         echo "Running $script_file on workstation"
-        sudo bash "$script"
+        bash "$script"
         echo "Running $script_file on workstation DONE"
         echo ""
 
@@ -51,7 +51,7 @@ do
         do
             echo "Running $script_file on $SERVER"
             ssh $SERVER 'bash -s' << EOF
-                sudo bash /home/student/rhel-init/src/scripts/$script_file
+                bash /home/student/rhel-init/src/scripts/$script_file
 EOF
             echo "Running $script_file on $SERVER DONE"
             echo ""
