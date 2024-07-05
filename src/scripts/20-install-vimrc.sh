@@ -41,8 +41,8 @@ sudo chmod a+rwx /usr/local/opt/fzf
 sudo cp "$VIMRC_PATH" /etc/vimrc.local
 
 # Compile vimrc
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-vim +PlugInstall +qall
+# curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# vim +PlugInstall +qall
 # vim -c "source /etc/vimrc" -c "quit"
 
 echo "$FINISHED_MESSAGE"

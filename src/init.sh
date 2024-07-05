@@ -57,7 +57,7 @@ do
             ssh $SERVER 'bash -s' << EOF
                 remote_script="/home/student/rhel-init/src/scripts/$script_file"
                 if bash "$remote_script" -s; then
-                    sudo bash "$remote_script"
+                    echo "student" | sudo -S bash "$remote_script"
                 else
                     bash "$remote_script"
                 fi
