@@ -26,16 +26,18 @@ done
 # Run the script
 
 # Make the backup
-sudo cp /etc/vimrc.local /etc/vimrc.local.backup
+if [ -f /etc/vimrc.local ]; then
+    sudo cp /etc/vimrc.local /etc/vimrc.local.backup
+fi
 
 # Install git to be able to download the theme
 sudo dnf install -y git
 
 # Make global config dirs
-sudo mkdir -p /etc/vim/conf.d
-sudo mkdir -p /usr/local/opt/fzf
-sudo chmod a+rwx /etc/vim/conf.d
-sudo chmod a+rwx /usr/local/opt/fzf
+# sudo mkdir -p /etc/vim/conf.d
+# sudo mkdir -p /usr/local/opt/fzf
+# sudo chmod a+rwx /etc/vim/conf.d
+# sudo chmod a+rwx /usr/local/opt/fzf
 
 # Setup new vimrc.local file
 sudo cp "$VIMRC_PATH" /etc/vimrc.local
