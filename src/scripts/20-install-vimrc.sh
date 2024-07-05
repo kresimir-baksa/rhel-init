@@ -37,6 +37,6 @@ sudo chmod a+rwx /usr/local/opt/fzf
 sudo cp "$VIMRC_PATH" /etc/vimrc.local
 
 # Compile vimrc
-vim -c "source /etc/vimrc" -c "quit"
+# vim -c "source /etc/vimrc" -c "quit"
 
 echo "$FINISHED_MESSAGE"

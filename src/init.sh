@@ -33,8 +33,8 @@ do
 
     if [ "$install" = false ]; then
         question="$(bash "$script" -i)"
-        read -p "$question? (y/n) " answer
-        if [[ $answer =~ ^[Yy]$ ]]; then
+        read -p "$question? (Y/n) " answer
+        if [[ -z $answer || $answer =~ ^[Yy]$ ]]; then
             install=true
         else
             echo "Skipping $script_file."
