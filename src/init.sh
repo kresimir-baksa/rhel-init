@@ -26,6 +26,9 @@ do
     scp -rq $BASE_PATH $SERVER:/home/student/
 done
 
+echo -n "Enter sudo password: "
+read -s password
+
 for script_file in $(ls $SCRIPTS_PATH);
 do
     install=$auto_install
@@ -44,7 +47,7 @@ do
     if [ "$install" = true ]; then
         echo "Running $script_file on workstation"
         if bash "$script" -s; then
-            sudo bash "$script"
+            echo "$password" | sudo -S bash "$script"
         else
             bash "$script"
         fi
@@ -58,7 +61,7 @@ do
             remote_script="/home/student/rhel-init/src/scripts/$script_file"
             ssh $SERVER 'bash -s' << EOF
                 if bash "$remote_script" -s; then
-                    echo "student" | sudo -S bash "$remote_script"
+                    echo "$password" | sudo -S bash "$remote_script"
                 else
                     bash "$remote_script"
                 fi
