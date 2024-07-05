@@ -54,8 +54,9 @@ do
         for SERVER in "${SERVERS[@]}";
         do
             echo "Running $script_file on $SERVER"
+            
+            remote_script="/home/student/rhel-init/src/scripts/$script_file"
             ssh $SERVER 'bash -s' << EOF
-                remote_script="/home/student/rhel-init/src/scripts/$script_file"
                 if bash "$remote_script" -s; then
                     echo "student" | sudo -S bash "$remote_script"
                 else
