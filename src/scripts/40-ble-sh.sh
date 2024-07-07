@@ -3,11 +3,11 @@
 INFO_MESSAGE="Install ble.sh for bash terminal"
 FINISHED_MESSAGE="Installation of ble.sh completed"
 
-BLE_ETC_PATH="/etc/ble.sh"
+BLE_ETC_PATH="/etc/ble"
 BASHRC_SCRIPT="/etc/bashrc"
 BLE_BASHRC_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/ble.bashrc.sh"
 BLE_COLORS_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/ble.colors"
-SOURCE_COMMAND="source $BLE_ETC_PATH/ble.sh --noattach && source $BLE_ETC_PATH/ble.colors"
+SOURCE_COMMAND="source $BLE_ETC_PATH/ble.sh && source $BLE_ETC_PATH/ble.colors"
 
 minimal_install=false
 if [[ $(hostname) == server* ]];

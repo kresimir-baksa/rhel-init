@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export BASE_PATH="$(cd "$(readlink -f $(dirname "$0"))/.." && pwd)"
+export BASE_PATH="$(cd "$(readlink -f $(dirname "$0"))" && pwd)"
 export CONFIG_PATH="$BASE_PATH/config"
 export SCRIPTS_PATH="$BASE_PATH/src/scripts"
 SERVERS=("servera" "serverb")
