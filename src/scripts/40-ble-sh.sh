@@ -3,8 +3,11 @@
 INFO_MESSAGE="Install ble.sh for bash terminal"
 FINISHED_MESSAGE="Installation of ble.sh completed"
 
+BLE_ETC_PATH="/etc/ble.sh"
+BASHRC_SCRIPT="/etc/bashrc"
 BLE_BASHRC_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/ble.bashrc.sh"
 BLE_COLORS_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/ble.colors"
+SOURCE_COMMAND="source $BLE_ETC_PATH/ble.sh --noattach && source $BLE_ETC_PATH/ble.colors"
 
 minimal_install=false
 if [[ $(hostname) == server* ]];
@@ -30,31 +33,54 @@ while getopts "is" opt; do
     esac
 done
 
-# Run the script
+# Run the BASHRC_SCRIPT
 
 # Create global blesh dir
-sudo mkdir -p /etc/blesh`
-sudo chmod a+rwx /etc/blesh
+sudo mkdir -p $BLE_ETC_PATH
+sudo chmod a+rwx $BLE_ETC_PATH
 
 if [ "$minimal_install" = false ]; then
     # Install on workstation
+
+    # Make sure that make is installed
+    sudo dnf install make -y
 
     # Clone and install
     git clone --recursive https://github.com/akinomyoga/ble.sh.git
     cd ble.sh
     make
-    cp -rf ./out/* /etc/blesh/
+    cp -rf ./out/* $BLE_ETC_PATH/
 
     # Copy color theme to INSDIR
-    cp "$BLE_COLORS_PATH" /etc/blesh/
+    cp "$BLE_COLORS_PATH" "$BLE_ETC_PATH/"
 else
     # Download build from workstation
-    scp -rq workstation:/etc/blesh/* /etc/blesh/
+    scp -rq workstation:"$BLE_ETC_PATH"/* "$BLE_ETC_PATH"/
 fi
 
-# Add bashrc config
-sed -i "s|path-to-blesh|/etc/blesh/ble.sh|g" $BLE_BASHRC_PATH
-sed -i "s|path-to-blesh-colors|/etc/blesh/ble.colors|g" $BLE_BASHRC_PATH
-sudo cp $BLE_BASHRC_PATH /etc/profile.d/
+# Check if the line is already present
+if ! grep -qF "$SOURCE_COMMAND" "$BASHRC_SCRIPT"; then
+    # Make backup
+    sudo cp "$BASHRC_SCRIPT" "$BASHRC_SCRIPT.backup"
+    
+    # Use awk to insert the line before the last 'fi' statement
+    awk -v insert="$SOURCE_COMMAND" '
+    BEGIN { lastFiLine = 0; }
+    {
+        lines[NR] = $0;
+        if ($1 == "fi" && $2 == "" && substr($0, length, 1) != "#") {
+            lastFiLine = NR;
+        }
+    }
+    END {
+        for (i = 1; i <= NR; i++) {
+            print lines[i];
+            if (i == lastFiLine - 1) {
+                print insert;
+            }
+        }
+    }' "$BASHRC_SCRIPT" > bashrc.tmp
+    sudo mv bashrc.tmp "$BASHRC_SCRIPT"
+fi
 
 echo "$FINISHED_MESSAGE"
