@@ -1,3 +1,5 @@
 alias start='sudo systemctl start'
 alias stop='sudo systemctl stop'
 alias status='sudo systemctl status'
+alias restart='sudo systemctl restart'
+alias gdiff='git diff -U1 --'

@@ -53,6 +53,9 @@ if [ "$minimal_install" = false ]; then
 
     # Copy color theme to INSDIR
     cp "$BLE_COLORS_PATH" "$BLE_ETC_PATH/"
+
+    # Clean up ble.sh repo
+    rm -rf ble.sh
 else
     # Download build from workstation
     scp -rq workstation:"$BLE_ETC_PATH"/* "$BLE_ETC_PATH"/
