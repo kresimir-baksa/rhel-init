@@ -5,6 +5,12 @@ FINISHED_MESSAGE="Setting up /etc/vimrc.local done"
 
 VIMRC_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/vimrc.local"
 
+is_server=false
+if [[ $(hostname) == server* ]];
+then
+    is_server=true
+fi
+
 # Parse the input options
 while getopts "is" opt; do
     case ${opt} in
@@ -43,8 +49,10 @@ sudo dnf install -y git
 sudo cp "$VIMRC_PATH" /etc/vimrc.local
 
 # Compile vimrc for user and root
+# if [ "$is_server" = false ]; then
 # vim -c 'PlugInstall'
 # sudo vim -c 'PlugInstall'
+# fi
 
 # Compile vimrc
 # curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

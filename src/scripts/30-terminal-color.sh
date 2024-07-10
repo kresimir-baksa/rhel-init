@@ -7,10 +7,10 @@ BASH_PROMPT_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/bas
 TMUX_CONFIG_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/tmux.conf"
 COLOR_SCHEME_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/gruvbox.conf"
 
-minimal_install=false
+is_server=false
 if [[ $(hostname) == server* ]];
 then
-    minimal_install=true
+    is_server=true
 fi
 
 # Parse the input options
@@ -37,7 +37,7 @@ done
 sudo cp "$BASH_PROMPT_PATH" /etc/profile.d/prompt.sh
 sudo cp "$TMUX_CONFIG_PATH" /etc/tmux.conf
 
-if [ "$minimal_install" = false ]; then
+if [ "$is_server" = false ]; then
     # Generate a new UUID for the new profile
     new_uuid=$(uuidgen)
     echo "Generated UUID for new profile: $new_uuid"

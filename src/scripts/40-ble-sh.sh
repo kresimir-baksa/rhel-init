@@ -9,10 +9,10 @@ BLE_BASHRC_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/ble.
 BLE_COLORS_PATH="$(cd "$(readlink -f $(dirname "$0"))/../.." && pwd)/config/ble.colors"
 SOURCE_COMMAND="source $BLE_ETC_PATH/ble.sh && source $BLE_ETC_PATH/ble.colors"
 
-minimal_install=false
+is_server=false
 if [[ $(hostname) == server* ]];
 then
-    minimal_install=true
+    is_server=true
 fi
 
 # Parse the input options
@@ -39,7 +39,7 @@ done
 sudo mkdir -p $BLE_ETC_PATH
 sudo chmod a+rwx $BLE_ETC_PATH
 
-if [ "$minimal_install" = false ]; then
+if [ "$is_server" = false ]; then
     # Install on workstation
 
     # Make sure that make is installed
@@ -57,21 +57,21 @@ if [ "$minimal_install" = false ]; then
     # Clean up ble.sh repo
     rm -rf ble.sh
 else
-#     # Install expect
-#     sudo dnf install expect -y
+    # Install expect
+    sudo dnf install expect -y
 
-#     # Download build from workstation
-#     expect <<EOF
-#     set timeout -1
-#     spawn scp -o StrictHostKeyChecking=no -rq workstation:"$BLE_ETC_PATH" ~/
-#     expect {
-#         "*password:" {
-#             send "$password\r"
-#             exp_continue
-#         }
-#         eof
-#     }
-# EOF
+    # Download build from workstation
+    expect <<EOF
+    set timeout -1
+    spawn scp -o StrictHostKeyChecking=no -rq workstation:$BLE_ETC_PATH /home/student/ble
+    expect {
+        "*password:" {
+            send "$password\r"
+            exp_continue
+        }
+        eof
+    }
+EOF
     # scp -o StrictHostKeyChecking=no -rq workstation:"$BLE_ETC_PATH"/* "$BLE_ETC_PATH"/
     sudo mv ~/ble /etc/
 fi
