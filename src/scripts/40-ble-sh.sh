@@ -57,21 +57,21 @@ if [ "$minimal_install" = false ]; then
     # Clean up ble.sh repo
     rm -rf ble.sh
 else
-    # Install expect
-    sudo dnf install expect -y
+#     # Install expect
+#     sudo dnf install expect -y
 
-    # Download build from workstation
-    expect <<EOF
-    set timeout -1
-    spawn scp -o StrictHostKeyChecking=no -rq workstation:"$BLE_ETC_PATH" ~/
-    expect {
-        "*password:" {
-            send "$password\r"
-            exp_continue
-        }
-        eof
-    }
-EOF
+#     # Download build from workstation
+#     expect <<EOF
+#     set timeout -1
+#     spawn scp -o StrictHostKeyChecking=no -rq workstation:"$BLE_ETC_PATH" ~/
+#     expect {
+#         "*password:" {
+#             send "$password\r"
+#             exp_continue
+#         }
+#         eof
+#     }
+# EOF
     # scp -o StrictHostKeyChecking=no -rq workstation:"$BLE_ETC_PATH"/* "$BLE_ETC_PATH"/
     sudo mv ~/ble /etc/
 fi
