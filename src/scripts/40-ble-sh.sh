@@ -56,23 +56,11 @@ if [ "$is_server" = false ]; then
 
     # Clean up ble.sh repo
     rm -rf ble.sh
-else
-    # Install expect
-    sudo dnf install expect -y
 
-    # Download build from workstation
-    expect <<EOF
-    set timeout -1
-    spawn scp -o StrictHostKeyChecking=no -rq workstation:$BLE_ETC_PATH /home/student/ble
-    expect {
-        "*password:" {
-            send "$password\r"
-            exp_continue
-        }
-        eof
-    }
-EOF
-    # scp -o StrictHostKeyChecking=no -rq workstation:"$BLE_ETC_PATH"/* "$BLE_ETC_PATH"/
+    # Upload build to servers
+    scp -rq /etc/ble servera:/home/student/
+    scp -rq /etc/ble serverb:/home/student/
+else
     sudo mv ~/ble /etc/
 fi
 

@@ -39,20 +39,35 @@ fi
 # Install git to be able to download the theme
 sudo dnf install -y git
 
-# Make global config dirs
-# sudo mkdir -p /etc/vim/conf.d
-# sudo mkdir -p /usr/local/opt/fzf
-# sudo chmod a+rwx /etc/vim/conf.d
-# sudo chmod a+rwx /usr/local/opt/fzf
-
 # Setup new vimrc.local file
 sudo cp "$VIMRC_PATH" /etc/vimrc.local
 
-# Compile vimrc for user and root
-# if [ "$is_server" = false ]; then
-# vim -c 'PlugInstall'
-# sudo vim -c 'PlugInstall'
-# fi
+if [ "$is_server" = false ]; then
+    # Compile vimrc for user
+    vim -c 'PlugInstall'
+
+    # Compress compiled dir
+    zip -r ~/vim.zip ~/.vim
+
+    # Copy compiled dir to servers
+    scp -rq ~/vim.zip servera:/home/student/
+    scp -rq ~/vim.zip serverb:/home/student/
+
+    # Clear zipped file
+    rm -rf ~/vim.zip
+
+    # Copy compiles to root dir
+    sudo cp -rf ~/.vim /root/
+    sudo chown root:root -R /root/.vim
+else
+    # Run on server
+    unzip vim.zip
+    rm -rf vim.zip
+
+    # Copy compiles to root dir
+    sudo cp -rf ~/.vim /root/
+    sudo chown root:root -R /root/.vim
+fi
 
 # Compile vimrc
 # curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
