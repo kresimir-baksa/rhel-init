@@ -55,6 +55,7 @@ if [ "$is_server" = false ]; then
     cp "$BLE_COLORS_PATH" "$BLE_ETC_PATH/"
 
     # Clean up ble.sh repo
+    cd ..
     rm -rf ble.sh
 
     # Upload build to servers

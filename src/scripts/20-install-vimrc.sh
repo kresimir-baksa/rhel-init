@@ -42,32 +42,32 @@ sudo dnf install -y git
 # Setup new vimrc.local file
 sudo cp "$VIMRC_PATH" /etc/vimrc.local
 
-if [ "$is_server" = false ]; then
-    # Compile vimrc for user
-    vim -c 'PlugInstall'
+# if [ "$is_server" = false ]; then
+#     # Compile vimrc for user
+#     vim -c 'PlugInstall'
 
-    # Compress compiled dir
-    zip -r ~/vim.zip ~/.vim
+#     # Compress compiled dir
+#     zip -r ~/vim.zip ~/.vim
 
-    # Copy compiled dir to servers
-    scp -rq ~/vim.zip servera:/home/student/
-    scp -rq ~/vim.zip serverb:/home/student/
+#     # Copy compiled dir to servers
+#     scp -rq ~/vim.zip servera:/home/student/
+#     scp -rq ~/vim.zip serverb:/home/student/
 
-    # Clear zipped file
-    rm -rf ~/vim.zip
+#     # Clear zipped file
+#     rm -rf ~/vim.zip
 
-    # Copy compiles to root dir
-    sudo cp -rf ~/.vim /root/
-    sudo chown root:root -R /root/.vim
-else
-    # Run on server
-    unzip vim.zip
-    rm -rf vim.zip
+#     # Copy compiles to root dir
+#     sudo cp -rf ~/.vim /root/
+#     sudo chown root:root -R /root/.vim
+# else
+#     # Run on server
+#     unzip vim.zip
+#     rm -rf vim.zip
 
-    # Copy compiles to root dir
-    sudo cp -rf ~/.vim /root/
-    sudo chown root:root -R /root/.vim
-fi
+#     # Copy compiles to root dir
+#     sudo cp -rf ~/.vim /root/
+#     sudo chown root:root -R /root/.vim
+# fi
 
 # Compile vimrc
 # curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
