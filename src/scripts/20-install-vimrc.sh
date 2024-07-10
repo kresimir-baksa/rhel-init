@@ -42,6 +42,10 @@ sudo dnf install -y git
 # Setup new vimrc.local file
 sudo cp "$VIMRC_PATH" /etc/vimrc.local
 
+# Compile vimrc for user and root
+vim -c 'PlugInstall'
+sudo vim -c 'PlugInstall'
+
 # Compile vimrc
 # curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 # vim +PlugInstall +qall
